@@ -34,4 +34,4 @@ io.on('connection', function (socket) {
     // listenForMessages(socket, channels.NMIT3);
 });
 
-setInterval(() => io.emit(channels.NMIT,{message: new Date().toTimeString()} ), 5000);
+// setInterval(() => io.emit(channels.NMIT,{message: new Date().toTimeString()} ), 5000);

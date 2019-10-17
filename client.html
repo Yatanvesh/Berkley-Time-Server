@@ -11,14 +11,14 @@
 
 <script src="socket.io.js"></script>
 <script>
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('https://frozen-peak-23350.herokuapp.com');
   socket.on('NMIT', function (data) {
     console.log("Received: " ,data.message);
 
   });
   function send (){
       console.log("sendiong")
-    socket.emit('NMIT', { message: 'Oh Hello ! I started' +Math.random().toString()  })
+    socket.emit('NMIT', { message: 'Oh hello ! Im browser client and i  started' +Math.random().toString()  })
   }
   send();
 
@@ -26,6 +26,6 @@
 </script>
 <body>
     Connecting
-    <button onclick="socket.emit('NMIT', { message: 'Oh Hello ! I started' +Math.random().toString()  })">Send</button>
+    <button onclick="socket.emit('NMIT', { message: 'Oh hello ! Im browser client and i  started'+Math.random().toString()  })">Send</button>
 </body>
 </html>
