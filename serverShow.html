@@ -81,7 +81,7 @@
     const counter = document.querySelector('.counter');
     const clock = document.querySelector('.clock');
 
-    var socket = io.connect('http://localhost:3001');
+    var socket = io.connect('https://frozen-peak-23350.herokuapp.com/');
     socket.on('SHOWTIME', function (data) {
       time = data.message;
       setTime();

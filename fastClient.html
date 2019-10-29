@@ -85,7 +85,7 @@
   const counter = document.querySelector('.counter');
   const clock = document.querySelector('.clock');
 
-  var socket = io.connect('http://192.168.31.242:3001');
+  var socket = io.connect('https://frozen-peak-23350.herokuapp.com/');
   socket.on('NMIT', function (data) {
     // console.log("Received", data);
     switch(data.type){
