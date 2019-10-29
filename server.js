@@ -35,6 +35,7 @@ const listenForMessages = (socket, channel) => {
         receivedTimeCount++;
         if(receivedTimeCount==numberOfClients){
             let avgTimeDifference = totalTimeDifference/numberOfClients;
+            console.log("Current master time:", time);
             console.log("Avg time difference:", avgTimeDifference);
             let syncTime  = time + avgTimeDifference;
             console.log("Setting master time as ", syncTime);
