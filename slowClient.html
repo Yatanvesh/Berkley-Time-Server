@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SlowClient</title>
+</head>
+<body>
+  <h1>Slow clock</h1>
+
+<div class="clock">
+    <div class="clock-face">
+      <div class="hand second-hand"></div>
+    </div>
+  </div>
+  <h1  class="counter">
+  </h1>
+
+
+<style>
+  html {
+    background: #018DED;
+    background-size: cover;
+    font-family: 'helvetica neue';
+    text-align: center;
+    font-size: 10px;
+  }
+
+  body {
+    margin: 0;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100vh;
+    align-items: center;
+  }
+
+  .clock {
+    background: #3e64ff;
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid white;
+    border-radius: 50%;
+    margin: 50px auto;
+    position: relative;
+    padding: 2rem;
+    box-shadow:
+      0 0 0 4px rgba(0,0,0,0.1),
+      inset 0 0 0 3px #EFEFEF,
+      inset 0 0 10px black,
+      0 0 10px rgba(0,0,0,0.2);
+  }
+
+  .clock-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-3px); /* account for the height of the clock hands */
+  }
+  .counter{
+    font-size: 3em;
+    color:white;
+  }
+
+  .hand {
+    width: 50%;
+    height: 6px;
+    background: black;
+    position: absolute;
+    top: 50%;
+    transform-origin: 100%;
+    transform: rotate(90deg);
+    transition: all 0.05s;
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+  let time=0;
+  const secondHand = document.querySelector('.second-hand');
+  const counter = document.querySelector('.counter');
+  const clock = document.querySelector('.clock');
+
+  var socket = io.connect('http://192.168.31.242:3001');
+  socket.on('NMIT', function (data) {
+    // console.log("Received", data);
+    switch(data.type){
+      
+      case 'RequestTime':
+        console.log("Sending time to master");
+        send(time);
+        break;
+      case 'SetTime':
+        console.warn("Changing client time to", data.message);
+        time = data.message;
+        setTime();
+        clock.style.background = 'red';
+        setTimeout(()=>clock.style.background = '', 200 );
+        break;
+      case 'ResetTime':
+        console.clear() 
+        console.log("SET TIME TO 0");
+        time =0;
+        break;
+      default: console.log("FATAL ERROR");
+        break;
+    }
+  });
+
+  function send (message = 'Default message'){
+      console.log("Sending", message);
+    socket.emit('NMIT', { message: message})
+  }
+ 
+function setTime() {
+  const seconds = time;
+  const secondsDegrees = ((seconds / 60) * 360) + 90;
+  secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+  counter.innerHTML= time%60;
+}
+setInterval( ()=>console.log("Client Time", time++), 1500);
+
+setInterval(setTime, 1500);
+
+setTime();
+
+</script>
+</body>
+</html>
