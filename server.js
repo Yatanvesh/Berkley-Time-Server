@@ -28,11 +28,6 @@ const channels = {
     SHOWTIME:'SHOWTIME'
 }
 
-// const sendMessage = (socket,message) =>{
-//     console.log("Broadcasting message: ", messageNumber++," ", message );
-//     socket.broadcast.emit(channels.NMIT, {message:message});
-// }
-
 const listenForMessages = (socket, channel) => {
     socket.on(channel, data => {
         console.log("Received time: '", data.message);
@@ -46,20 +41,9 @@ const listenForMessages = (socket, channel) => {
             time = syncTime;
             broadcastMasterTime(socket);
         }
-        // broadcastMasterTime(socket);
-        // console.log("Broadcasting message , ", data.message)
-        // socket.broadcast.emit(channels.NMIT, {message:data.message})
+       
     })
 }
-
-
-// const listenForTimeRequest = (socket) => {
-//     socket.on('SHOWTIME', data => {
-//         console.log("sending current time");
-//         if(data.count) numberOfClients=count;
-//         broadcastMasterTime(socket, channels.SHOWTIME);
-//     })
-// }
 
 
 const broadcastMasterTime = (socket, channel=channels.NMIT) => {
@@ -98,5 +82,3 @@ setInterval(() => {
 
     },
     5000);
-
-   

@@ -122,8 +122,8 @@ function setTime() {
   secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
   counter.innerHTML= time%60;
 }
-setInterval( ()=>console.log("Client Time", time++), 600);
-setInterval(setTime, 600);
+setInterval( ()=>console.log("Client Time", time++), 500);
+setInterval(setTime, 500);
 
 setTime();
 
